@@ -1,0 +1,53 @@
+group 'top.zeimao77'
+version '1.0-SNAPSHOT'
+
+apply plugin:'java'
+apply plugin:'application'
+
+mainClassName ="top.zeimao77.dbutil.ui.MainApp"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.16'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.0.RELEASE'
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "us.kirchmeier:gradle-capsule-plugin:1.0.2"
+    }
+}
+
+apply plugin: "us.kirchmeier.capsule"
+
+sourceSets {
+    main {
+        output.resourcesDir = "build/classes/main"
+    }
+    test {
+        output.resourcesDir = "build/classes/test"
+    }
+}
+
+
+task simpleCapsule(type: FatCapsule) {
+    applicationClass 'top.zeimao77.dbutil.ui.MainApp'
+    baseName 'mysql_xlsx'
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tableFactory>
+    <table serviceId="service" tableName="字典表">
+        <sql></sql>
+        <columnlist>
+            <item index="0" title="标题" field="字段名" width="12" format="@"/>
+        </columnlist>
+    </table>
+</tableFactory>
