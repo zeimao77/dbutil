@@ -1,0 +1,11 @@
+*.class
+dbresource.xml
+settings.gradle
+tableconfig.xml
+
+
+/out/
+/target/
+/.idea/
+/build/
+/.gradle/
