@@ -125,7 +125,7 @@ public class Mysql {
             if(System.getProperty("os.name").startsWith("Win")) {
                 homePath = "C:"+ SystemPropertyUtils.resolvePlaceholders("${HOMEPATH}")+"\\Desktop";
             }else if(System.getProperty("os.name").startsWith("Linux")) {
-                homePath = "~/";
+                homePath = "/home";
             }
         }catch ( IllegalArgumentException e) {
             homePath = "/";
