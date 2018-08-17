@@ -111,7 +111,6 @@ public class Mysql {
         dataTableView.showAndWait();
     }
 
-
     public void button_select_click() throws InterruptedException {
         pro_indicator1.progressProperty().bind(query_service.progressProperty());
         query_service.restart();
@@ -121,7 +120,16 @@ public class Mysql {
         Assert.notNull(serviceId,"请选择业务");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("导出位置");
-        String homePath = "C:"+ SystemPropertyUtils.resolvePlaceholders("${HOMEPATH}")+"\\Desktop";
+        String homePath = "/";
+        try{
+            if(System.getProperty("os.name").startsWith("Win")) {
+                homePath = "C:"+ SystemPropertyUtils.resolvePlaceholders("${HOMEPATH}")+"\\Desktop";
+            }else if(System.getProperty("os.name").startsWith("Linux")) {
+                homePath = "~/";
+            }
+        }catch ( IllegalArgumentException e) {
+            homePath = "/";
+        }
         fileChooser.setInitialDirectory(new File(homePath));
         fileChooser.setInitialFileName(serviceId+".xlsx");
         File file = fileChooser.showSaveDialog(MainApp.rootStage);
