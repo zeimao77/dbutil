@@ -36,17 +36,15 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage){
+        controllerUi.setMainApp(this);
         try {
             app_init();
-        } catch (IOException e) {
-            logger.log(Level.WARNING,"配置失败，需要重新检查配置文件");
-        }
-        controllerUi.setRootStage(primaryStage);
-        primaryStage.setTitle("ZEIMAO77_DBUTIL");
-        try {
+            controllerUi.setRootStage(primaryStage);
+            primaryStage.setTitle("ZEIMAO77_DBUTIL");
             initRootStage();
             initTabPane();
         } catch (IOException e) {
+            logger.log(Level.WARNING,"配置失败，需要重新检查配置文件");
             e.printStackTrace();
         }
     }

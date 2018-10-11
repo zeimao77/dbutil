@@ -11,8 +11,8 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.zeimao77.dbutil.controller.MysqlImport">
    <children>
       <TextArea layoutX="78.0" layoutY="14.0" prefHeight="180.0" prefWidth="509.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0" />
-      <Button layoutX="504.0" layoutY="158.0" mnemonicParsing="false" onAction="#chooseXlsx" text="文件" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="205.0" />
-      <Button fx:id="button_import" layoutX="503.0" layoutY="350.0" mnemonicParsing="false" onAction="#button_insert_click" text="导入" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+      <Button layoutX="504.0" layoutY="158.0" mnemonicParsing="false" onAction="#chooseXlsx" prefWidth="60.0" text="文件" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="205.0" />
+      <Button fx:id="button_import" layoutX="503.0" layoutY="350.0" mnemonicParsing="false" onAction="#button_insert_click" prefWidth="60.0" text="导入" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0" />
       <Label layoutX="18.0" layoutY="14.0" text="SQL" />
       <TextArea fx:id="textArea_res" layoutX="78.0" layoutY="252.0" prefHeight="102.0" prefWidth="450.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="295.0" />
       <TextField fx:id="textField_file" layoutX="59.0" layoutY="158.0" prefHeight="36.0" prefWidth="438.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="205.0" />
@@ -21,5 +21,6 @@
       <Label layoutX="13.0" layoutY="205.0" text="文件" />
       <Label layoutX="13.0" layoutY="250.0" text="业务" />
       <Label layoutX="13.0" layoutY="297.0" text="结果" />
+      <ChoiceBox fx:id="choiceBox_insertMode" prefWidth="60.0" AnchorPane.bottomAnchor="55.0" AnchorPane.rightAnchor="20.0" />
    </children>
 </AnchorPane>
