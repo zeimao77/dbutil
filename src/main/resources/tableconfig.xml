@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <tableFactory>
-    <table serviceId="service" tableName="字典表">
-        <sql></sql>
+    <table serviceId="service" tableName="表">
+        <select>
+            SELECT 字段名 from 表名 where ...;
+        </select>
+        <insert>
+            INSERT INTO 表名(字段名) VALUES (${字段名});
+        </insert>
         <columnlist>
             <item index="0" title="标题" field="字段名" width="12" format="@"/>
         </columnlist>
