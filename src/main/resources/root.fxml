@@ -3,6 +3,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.zeimao77.dbutil.controller.Root">
@@ -25,4 +28,23 @@
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <TabPane fx:id="tabPane_root" prefHeight="200.0" prefWidth="200.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="导出">
+               <content>
+                  <ScrollPane fx:id="exportPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" />
+               </content></Tab>
+          <Tab text="导入">
+               <content>
+                  <ScrollPane fx:id="importPane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" />
+               </content></Tab>
+            <Tab text="数据">
+               <content>
+                  <ScrollPane fx:id="dataPane" fitToHeight="true" fitToWidth="true" prefHeight="678.0" prefWidth="555.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
 </BorderPane>

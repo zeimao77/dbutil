@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.Assert;
 import top.zeimao77.dbutil.ui.MainApp;
 
@@ -15,7 +17,6 @@ public class DbSourceConf {
     @FXML
     private TextArea sourceArea;
 
-    private MainApp mainApp;
     private Stage dialogStage;
 
     public void setDialogStage(Stage dialogStage) {
@@ -40,11 +41,16 @@ public class DbSourceConf {
         properties.setProperty("url",jsonConfig.getString("url"));
         properties.setProperty("username",jsonConfig.getString("username"));
         properties.setProperty("password",jsonConfig.getString("password"));
-        mainApp.mysql.resetSource(properties);
+        DriverManagerDataSource source = new DriverManagerDataSource();
+        source.setDriverClassName(properties.getProperty("driver"));
+        source.setUrl(properties.getProperty("url"));
+        source.setUsername(properties.getProperty("username"));
+        source.setPassword(properties.getProperty("password"));
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(source);
+        jdbcTemplate.setQueryTimeout(30);
+        MainApp.getControllerUi().setTemplate(jdbcTemplate);
         dialogStage.close();
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
+
 }

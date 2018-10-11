@@ -3,7 +3,7 @@ package top.zeimao77.dbutil.export;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-public class Column {
+public class Column implements Comparable<Column> {
 
     @XmlAttribute
     private Integer index;
@@ -59,5 +59,10 @@ public class Column {
     @XmlTransient
     public String getFormat() {
         return format;
+    }
+
+    @Override
+    public int compareTo(Column o) {
+        return Integer.compare(this.getIndex(),o.getIndex());
     }
 }

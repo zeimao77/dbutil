@@ -1,4 +1,4 @@
-package top.zeimao77.dbutil.ui;
+package top.zeimao77.dbutil.comdata;
 
 public class App {
 

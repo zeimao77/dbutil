@@ -6,8 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
+import top.zeimao77.dbutil.comdata.TableFac;
 import top.zeimao77.dbutil.export.Column;
+import top.zeimao77.dbutil.export.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,22 +19,30 @@ public class TabView {
     @FXML
     private TableView tableView;
 
-    public void setHeader(Map<String,Column> columns) {
-        for(Map.Entry<String, Column> entry : columns.entrySet()) {
+    private List<Map<String, Object>> data;
+
+    public void setHeader(String serviceId) {
+        Table table = TableFac.getTableFactory().getTableByKey(serviceId);
+        tableView.getColumns().clear();
+        for(Map.Entry<String, Column> entry : table.getColumnMap().entrySet()) {
             Column column = entry.getValue();
             TableColumn tableColumn = new TableColumn(column.getTitle());
             tableColumn.setMinWidth(column.getWidth()*10);
-            tableColumn.setCellValueFactory(
-                    new MapValueFactory<>(column.getField()));
+            tableColumn.setCellValueFactory(new MapValueFactory<>(column.getField()));
             tableView.getColumns().add(tableColumn);
         }
+        this.setData(null);
     }
 
-    public void setBody(List<Map<String, Object>> data) {
-        ObservableList<Map<String,Object>> list = FXCollections.observableArrayList(data);
+    public void setData(List<Map<String, Object>> data) {
+        this.data = data==null?new ArrayList<>(0):data;
+        ObservableList<Map<String,Object>> list = FXCollections.observableArrayList(this.data);
         tableView.setItems(list);
     }
 
-
+    public void refreshView(String serviceId,List<Map<String, Object>> data) {
+        this.setHeader(serviceId);
+        this.setData(data);
+    }
 
 }

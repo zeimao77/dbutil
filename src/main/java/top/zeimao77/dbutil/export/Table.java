@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
-@XmlType(propOrder = { "serviceId","sql", "columnMap"})
+@XmlType(propOrder = { "serviceId","select","insert", "columnMap"})
 public class Table {
 
     @XmlAttribute
@@ -16,11 +16,13 @@ public class Table {
     @XmlAttribute
     private String serviceId;
 
-    private String sql;
+    private String select;
+
+    private String insert;
 
     @XmlJavaTypeAdapter(ColumnMapAdapter.class)
     @XmlElement(name="columnlist")
-    private Map<String,Column> columnMap;
+    private LinkedHashMap<String,Column> columnMap;
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -30,11 +32,8 @@ public class Table {
         this.serviceId = serviceId;
     }
 
-    public void setSql(String sql) {
-        this.sql = sql;
-    }
 
-    public void setColumnMap(Map<String, Column> columnMap) {
+    public void setColumnMap(LinkedHashMap<String, Column> columnMap) {
         this.columnMap = columnMap;
     }
 
@@ -47,13 +46,24 @@ public class Table {
         return serviceId;
     }
 
-    public String getSql() {
-        return sql;
-    }
     @XmlTransient
-    public Map<String, Column> getColumnMap() {
+    public LinkedHashMap<String, Column> getColumnMap() {
         return columnMap;
     }
 
+    public void setSelect(String select) {
+        this.select = select;
+    }
 
+    public void setInsert(String insert) {
+        this.insert = insert;
+    }
+
+    public String getSelect() {
+        return select;
+    }
+
+    public String getInsert() {
+        return insert;
+    }
 }

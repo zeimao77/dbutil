@@ -2,9 +2,11 @@ package top.zeimao77.dbutil.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import org.springframework.util.DefaultPropertiesPersister;
 import org.springframework.util.PropertiesPersister;
-import top.zeimao77.dbutil.ui.App;
+import top.zeimao77.dbutil.comdata.App;
 import top.zeimao77.dbutil.ui.MainApp;
 
 import java.io.File;
@@ -14,12 +16,31 @@ import java.util.Properties;
 
 public class Root {
 
-    private MainApp mainApp;
+    @FXML
+    private ScrollPane importPane;
 
+    @FXML
+    private ScrollPane exportPane;
+
+    @FXML
+    private ScrollPane dataPane;
+
+    @FXML
+    private TabPane tabPane_root;
 
     @FXML
     public void handleQuit() {
         System.exit(0);
+    }
+
+    public void init() {
+        tabPane_root.getSelectionModel().selectedItemProperty().addListener((o1,o2,o3)->{
+            if("导入".equals(o3.getText())){
+                MainApp.getControllerUi().getMysqlImport().refresh();
+            }else if("导出".equals(o3.getText())){
+                MainApp.getControllerUi().getMysql().refresh();
+            }
+        });
     }
 
     @FXML
@@ -39,18 +60,27 @@ public class Root {
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             pp.loadFromXml(properties,fileInputStream);
-            mainApp.showDbSourceConfigPane(properties);
+            MainApp.getControllerUi().getMainApp().showDbSourceConfigPane(properties);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
 
     public void handleConfDbSource() throws IOException {
-        mainApp.showDbSourceConfPane();
+        MainApp.getControllerUi().getMainApp().showDbSourceConfPane();
     }
 
+
+    public ScrollPane getExportPane() {
+        return exportPane;
+    }
+
+    public ScrollPane getImportPane() {
+        return importPane;
+    }
+
+    public ScrollPane getDataPane() {
+        return dataPane;
+    }
 }

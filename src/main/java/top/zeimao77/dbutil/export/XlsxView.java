@@ -1,11 +1,20 @@
 package top.zeimao77.dbutil.export;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.*;
+import java.util.function.Function;
 
+/**
+ * 处理EXCEL
+ */
 public class XlsxView {
 
     private int i;
@@ -74,6 +83,52 @@ public class XlsxView {
                 sheet.setColumnWidth(column.getIndex(), column.getWidth() * 267);
             }
         }
+    }
+
+    public static List<Map<String,Object>> parseXlsx(File file,Table config) throws IOException, InvalidFormatException, ParseException {
+        LinkedHashMap<String, Column> column = config.getColumnMap();
+        Function<Integer,Column> fun = o->{
+            Collection<Column> columns = column.values();
+            for(Column c : columns) {
+                if(c.getIndex() == o.intValue()) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(String.format("没有找到配置行index:[%d]",o));
+        };
+        List<Map<String,Object>> returnList = new ArrayList<>();
+        XSSFWorkbook workbook = new XSSFWorkbook(file);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        DecimalFormat decimalFormat = new DecimalFormat("0");
+        Row row;
+        for(int i=1;i<sheet.getLastRowNum();i++) {
+            row = sheet.getRow(i);
+            Map<String,Object> map = new HashMap<>(column.size());
+            for(int j=0;j<column.size();j++) {
+                Cell cell = row.getCell(j);
+                Object val = null;
+                switch (cell.getCellTypeEnum()) {
+                    case STRING:
+                        val = cell.getStringCellValue();
+                        break;
+                    case NUMERIC:
+                        val = cell.getNumericCellValue();
+                        val = decimalFormat.parse(decimalFormat.format(val));
+                        break;
+                    case BOOLEAN:
+                        val = cell.getBooleanCellValue();
+                        break;
+                    default:
+                        break;
+                }
+                if(val != null) {
+                    Column c = fun.apply(j);
+                    map.put(c.getField(),val);
+                }
+            }
+            returnList.add(map);
+        }
+        return returnList;
     }
 
 }

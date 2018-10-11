@@ -1,18 +1,19 @@
 package top.zeimao77.dbutil.export;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ColumnMapAdapter extends XmlAdapter<Column[],Map<String,Column>> {
 
     @Override
-    public Map<String, Column> unmarshal(Column[] v) {
-        Map<String,Column> map = new HashMap<>();
-        for(Column c:v){
-            map.put(c.getField(),c);
+    public LinkedHashMap<String, Column> unmarshal(Column[] v) {
+        Arrays.sort(v);
+        LinkedHashMap<String,Column> treeMap = new LinkedHashMap<>(v.length);
+
+        for(int i=0;i<v.length;i++) {
+            treeMap.put(v[i].getField(),v[i]);
         }
-        return map;
+        return treeMap;
     }
 
     @Override

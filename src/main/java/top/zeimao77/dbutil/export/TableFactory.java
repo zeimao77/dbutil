@@ -1,5 +1,7 @@
 package top.zeimao77.dbutil.export;
 
+import top.zeimao77.dbutil.comdata.TableFac;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * 处理xml配置文件  初始化Tabel
+ */
 public class TableFactory {
 
     private static final Logger logger = Logger.getLogger(TableFactory.class.getName());
@@ -26,6 +31,7 @@ public class TableFactory {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             InputStream stream = new FileInputStream(file);
             this.tables = (Tables) unmarshaller.unmarshal(stream);
+            TableFac.setTableFactory(this);
             logger.info("初始化table工厂结束...");
         } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();
