@@ -51,7 +51,7 @@ public class MainApp extends Application {
 
     private void initRootStage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("root.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/root.fxml"));
         BorderPane rootPane = fxmlLoader.load();
         Root root = fxmlLoader.getController();
         root.init();
@@ -64,21 +64,21 @@ public class MainApp extends Application {
     private void initTabPane() throws IOException {
         //初始化导出界面
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("mysql.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/mysql.fxml"));
         AnchorPane mysqlPane = fxmlLoader.load();
         Mysql mysql = fxmlLoader.getController();
         controllerUi.setMysql(mysql);
         controllerUi.getRoot().getExportPane().setContent(mysqlPane);
         //初始化导入界面
         fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("mysqlimport.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/mysqlimport.fxml"));
         AnchorPane importPane = fxmlLoader.load();
         MysqlImport mysqlImport = fxmlLoader.getController();
         controllerUi.setMysqlImport(mysqlImport);
         controllerUi.getRoot().getImportPane().setContent(importPane);
         //初始化表格界面
         fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("tabview.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/tabview.fxml"));
         AnchorPane tabViewPane = fxmlLoader.load();
         TabView tabView = fxmlLoader.getController();
         controllerUi.setTabView(tabView);
@@ -89,7 +89,7 @@ public class MainApp extends Application {
 
     public void showDbSourceConfigPane(Properties properties) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("dbsourceconfig.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/dbsourceconfig.fxml"));
         AnchorPane page = fxmlLoader.load();
         Stage dialogStage = new Stage();
         dialogStage.setTitle("配置数据源");
@@ -105,7 +105,7 @@ public class MainApp extends Application {
 
     public void showDbSourceConfPane() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("dbsourceconf.fxml"));
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/dbsourceconf.fxml"));
         AnchorPane page = fxmlLoader.load();
         Stage dialogStage = new Stage();
         dialogStage.setTitle("配置数据源");
@@ -120,24 +120,26 @@ public class MainApp extends Application {
 
     private void app_init() throws IOException {
         File file = new File(App.DBSOURCE_FILE);
-        PropertiesPersister pp = new DefaultPropertiesPersister();
-        Properties properties = new Properties();
-        FileInputStream fileInputStream = new FileInputStream(file);
-        pp.loadFromXml(properties,fileInputStream);
-        DriverManagerDataSource source = new DriverManagerDataSource();
-        source.setDriverClassName(properties.getProperty("driver"));
-        source.setUrl(properties.getProperty("url"));
-        source.setUsername(properties.getProperty("username"));
-        source.setPassword(properties.getProperty("password"));
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(source);
-        jdbcTemplate.setQueryTimeout(30);
-        controllerUi.setTemplate(jdbcTemplate);
+        if(file.exists()) {
+            PropertiesPersister pp = new DefaultPropertiesPersister();
+            Properties properties = new Properties();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            pp.loadFromXml(properties,fileInputStream);
+            DriverManagerDataSource source = new DriverManagerDataSource();
+            source.setDriverClassName(properties.getProperty("driver"));
+            source.setUrl(properties.getProperty("url"));
+            source.setUsername(properties.getProperty("username"));
+            source.setPassword(properties.getProperty("password"));
+            JdbcTemplate jdbcTemplate = new JdbcTemplate(source);
+            jdbcTemplate.setQueryTimeout(30);
+            controllerUi.setTemplate(jdbcTemplate);
+        }
         file = new File(App.TABLECONFIG_FILE);
         if(!file.exists()) {
             Assert.isTrue(file.createNewFile(),String.format("创建新的配置文件[%s]失败",App.TABLECONFIG_FILE));
             InputStream is =getClass().getClassLoader().getResourceAsStream("tableconfig.xml");
             FileCopyUtils.copy(is,new FileOutputStream(file));
-            logger.info("请先修改配置文件");
+            logger.info(String.format("请先修改配置文件[%s]",App.TABLECONFIG_FILE));
             System.exit(0);
         }
         new TableFactory(file);

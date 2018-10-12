@@ -94,7 +94,7 @@ public class Mysql implements TabViewAble{
     public void button_show_click() throws IOException {
         Stage dataTableView = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getClassLoader().getResource("tabview.fxml"));
+        fxmlLoader.setLocation(getClass().getClassLoader().getResource("fxml/tabview.fxml"));
         AnchorPane pane = fxmlLoader.load();
         TabView tabView = fxmlLoader.getController();
         Table table = TableFac.getTableFactory().getTableByKey(this.serviceId);
