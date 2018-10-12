@@ -1,5 +1,8 @@
 package top.zeimao77.dbutil.comdata;
 
+/**
+ * App常量
+ */
 public class App {
 
     public static final String APP_VERSION = "1.0-SNAPSHOT";

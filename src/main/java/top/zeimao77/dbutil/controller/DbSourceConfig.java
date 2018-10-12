@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 
 import java.util.Properties;
 
+/**
+ * 查看数据源
+ */
 public class DbSourceConfig {
 
     @FXML
@@ -21,7 +24,7 @@ public class DbSourceConfig {
     private TextField passwordField;
 
     private Stage dialogStage;
-    
+
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }

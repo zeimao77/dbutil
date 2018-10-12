@@ -31,6 +31,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 导入页面
+ */
 public class MysqlImport implements TabViewAble{
 
     private static final Logger logger = Logger.getLogger(TableFactory.class.getName());

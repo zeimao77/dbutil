@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 数据表格页面
+ */
 public class TabView {
 
     @FXML

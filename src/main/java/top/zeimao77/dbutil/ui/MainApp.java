@@ -118,6 +118,10 @@ public class MainApp extends Application {
         dialogStage.showAndWait();
     }
 
+    /**
+     * 初始化 数据源  读入表格配置
+     * @throws IOException
+     */
     private void app_init() throws IOException {
         File file = new File(App.DBSOURCE_FILE);
         if(file.exists()) {
@@ -144,6 +148,7 @@ public class MainApp extends Application {
         }
         new TableFactory(file);
     }
+
     public static ControllerUi getControllerUi() {
         return controllerUi;
     }

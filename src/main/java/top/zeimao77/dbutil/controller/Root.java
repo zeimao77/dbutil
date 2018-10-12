@@ -14,6 +14,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 主页页面框架
+ */
 public class Root {
 
     @FXML

@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * 引出页面
+ */
 public class Mysql implements TabViewAble{
 
     private static final Logger logger = Logger.getLogger(Mysql.class.getName());

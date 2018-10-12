@@ -18,6 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 数据源配置页面
+ */
 public class DbSourceConf {
 
     @FXML
