@@ -29,6 +29,9 @@ public class Root {
     private ScrollPane dataPane;
 
     @FXML
+    private ScrollPane comparePane;
+
+    @FXML
     private TabPane tabPane_root;
 
     @FXML
@@ -85,5 +88,9 @@ public class Root {
 
     public ScrollPane getDataPane() {
         return dataPane;
+    }
+
+    public ScrollPane getComparePane() {
+        return comparePane;
     }
 }

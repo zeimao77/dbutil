@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.zeimao77.dbutil.controller.DbCompare">
+   <children>
+      <TextArea fx:id="textArea_dbsourceConfig" layoutX="37.0" layoutY="44.0" prefHeight="184.0" prefWidth="520.0" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0" />
+      <Button mnemonicParsing="false" onAction="#button_example_click" text="填入示例" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="40.0" />
+      <Button layoutX="486.0" layoutY="322.0" mnemonicParsing="false" onAction="#setButton_compare_click" text="导出结果" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0" />
+      <TextArea fx:id="textArea_includeTable" layoutX="37.0" layoutY="239.0" prefHeight="140.0" prefWidth="193.0" AnchorPane.bottomAnchor="40.0" />
+      <TextArea fx:id="textArea_excludeTable" layoutX="260.0" layoutY="239.0" prefHeight="140.0" prefWidth="208.0" AnchorPane.bottomAnchor="40.0" />
+      <Label layoutX="37.0" layoutY="21.0" text="两个库源：" />
+      <Label layoutX="43.0" layoutY="212.0" text="只比较这些表的结果（优先）" AnchorPane.bottomAnchor="190.0" />
+      <Label layoutX="266.0" layoutY="212.0" text="排队这些表的结果" AnchorPane.bottomAnchor="190.0" />
+   </children>
+</AnchorPane>

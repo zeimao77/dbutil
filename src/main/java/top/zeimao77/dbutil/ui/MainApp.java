@@ -85,6 +85,13 @@ public class MainApp extends Application {
         controllerUi.getRoot().getDataPane().setContent(tabViewPane);
         mysql.init();
         mysqlImport.init();
+        //初始化库字段比较页面
+        fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/dbcompare.fxml"));
+        AnchorPane comparePane = fxmlLoader.load();
+        //DbCompare dbCompare = fxmlLoader.getController();
+        controllerUi.getRoot().getComparePane().setContent(comparePane);
+
     }
 
     public void showDbSourceConfigPane(Properties properties) throws IOException {
@@ -114,6 +121,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
         DbSourceConf dbSourceConf = fxmlLoader.getController();
+        dbSourceConf.init();
         dbSourceConf.setDialogStage(dialogStage);
         dialogStage.showAndWait();
     }

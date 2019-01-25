@@ -44,6 +44,11 @@
                   <ScrollPane fx:id="dataPane" fitToHeight="true" fitToWidth="true" prefHeight="678.0" prefWidth="555.0" />
                </content>
             </Tab>
+            <Tab text="库表比较">
+               <content>
+                  <ScrollPane fx:id="comparePane" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>
