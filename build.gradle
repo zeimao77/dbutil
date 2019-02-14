@@ -40,6 +40,12 @@ sourceSets {
     }
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'top.zeimao77.dbutil.ui.MainApp'
+    }
+}
+
 
 task simpleCapsule(type: FatCapsule) {
     applicationClass 'top.zeimao77.dbutil.ui.MainApp'

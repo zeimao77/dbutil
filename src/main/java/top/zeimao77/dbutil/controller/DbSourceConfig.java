@@ -1,5 +1,6 @@
 package top.zeimao77.dbutil.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -29,11 +30,11 @@ public class DbSourceConfig {
         this.dialogStage = dialogStage;
     }
 
-    public void setData(Properties data) {
-        this.driverField.setText(data.getProperty("driver"));
-        this.urlField.setText(data.getProperty("url"));
-        this.usernameField.setText(data.getProperty("username"));
-        this.passwordField.setText(data.getProperty("password"));
+    public void setData(JSONObject data) {
+        this.driverField.setText(data.getString("driver"));
+        this.urlField.setText(data.getString("url"));
+        this.usernameField.setText(data.getString("username"));
+        this.passwordField.setText(data.getString("password"));
     }
 
     public void handleCancel() {

@@ -1,18 +1,14 @@
 package top.zeimao77.dbutil.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
-import org.springframework.util.DefaultPropertiesPersister;
-import org.springframework.util.PropertiesPersister;
 import top.zeimao77.dbutil.comdata.App;
 import top.zeimao77.dbutil.ui.MainApp;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  * 主页页面框架
@@ -60,16 +56,7 @@ public class Root {
 
     @FXML
     public void handleConfigDbSource() {
-        File file = new File(App.DBSOURCE_FILE);
-        PropertiesPersister pp = new DefaultPropertiesPersister();
-        Properties properties = new Properties();
-        try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            pp.loadFromXml(properties,fileInputStream);
-            MainApp.getControllerUi().getMainApp().showDbSourceConfigPane(properties);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        MainApp.getControllerUi().getMainApp().showDbSourceConfigPane(new JSONObject());
     }
 
 

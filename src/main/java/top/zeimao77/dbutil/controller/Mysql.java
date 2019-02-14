@@ -146,9 +146,9 @@ public class Mysql implements TabViewAble{
         }
     }
 
-    public void init() throws IOException {
+    public void init()  {
         choiceBox_config.setItems(FXCollections.observableArrayList(TableFac.getTableFactory().serviceList()));
-        logger.info("读取默认配置成功");
+        logger.info("读取业务配置成功");
         choiceBox_config.getSelectionModel().selectedItemProperty().addListener((o1,o2,o3)->{
             this.setServiceId(o3.toString());
             this.select_data.clear();

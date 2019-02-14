@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.zeimao77.dbutil.controller.DbSourceConf">
    <children>
       <Label layoutX="21.0" layoutY="14.0" text="请粘贴JSON格式配置" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
-      <TextArea fx:id="sourceArea" layoutX="21.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0" />
+      <TextArea fx:id="textArea_source" layoutX="21.0" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0" />
       <HBox layoutX="413.0" layoutY="341.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleconfigSource" text="确定" />
@@ -18,7 +18,7 @@
          </children>
       </HBox>
       <ChoiceBox fx:id="choiceBox_dbsourceSelect" layoutX="29.0" layoutY="357.0" prefWidth="150.0" />
-      <Button layoutX="192.0" layoutY="357.0" mnemonicParsing="false" text="添加到列表" />
-      <Button layoutX="273.0" layoutY="357.0" mnemonicParsing="false" text="移除列表" />
+      <Button layoutX="192.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_addList_click" text="添加到列表" />
+      <Button layoutX="273.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_removeList_click" text="移除列表" />
    </children>
 </AnchorPane>

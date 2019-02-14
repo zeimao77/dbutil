@@ -1,5 +1,6 @@
 package top.zeimao77.dbutil.ui;
 
+import com.alibaba.fastjson.JSONObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,19 +8,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.Assert;
-import org.springframework.util.DefaultPropertiesPersister;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.PropertiesPersister;
 import top.zeimao77.dbutil.comdata.App;
 import top.zeimao77.dbutil.comdata.ControllerUi;
 import top.zeimao77.dbutil.controller.*;
 import top.zeimao77.dbutil.export.TableFactory;
 
 import java.io.*;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +36,7 @@ public class MainApp extends Application {
         try {
             app_init();
             controllerUi.setRootStage(primaryStage);
+            primaryStage.setWidth(650);
             primaryStage.setTitle("ZEIMAO77_DBUTIL");
             initRootStage();
             initTabPane();
@@ -94,10 +91,15 @@ public class MainApp extends Application {
 
     }
 
-    public void showDbSourceConfigPane(Properties properties) throws IOException {
+    public void showDbSourceConfigPane(JSONObject properties) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/dbsourceconfig.fxml"));
-        AnchorPane page = fxmlLoader.load();
+        AnchorPane page = null;
+        try {
+            page = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Stage dialogStage = new Stage();
         dialogStage.setTitle("配置数据源");
         dialogStage.initOwner(controllerUi.getRootStage());
@@ -122,7 +124,7 @@ public class MainApp extends Application {
         dialogStage.setScene(scene);
         DbSourceConf dbSourceConf = fxmlLoader.getController();
         dbSourceConf.init();
-        dbSourceConf.setDialogStage(dialogStage);
+        dbSourceConf.setStage_dialog(dialogStage);
         dialogStage.showAndWait();
     }
 
@@ -131,22 +133,7 @@ public class MainApp extends Application {
      * @throws IOException
      */
     private void app_init() throws IOException {
-        File file = new File(App.DBSOURCE_FILE);
-        if(file.exists()) {
-            PropertiesPersister pp = new DefaultPropertiesPersister();
-            Properties properties = new Properties();
-            FileInputStream fileInputStream = new FileInputStream(file);
-            pp.loadFromXml(properties,fileInputStream);
-            DriverManagerDataSource source = new DriverManagerDataSource();
-            source.setDriverClassName(properties.getProperty("driver"));
-            source.setUrl(properties.getProperty("url"));
-            source.setUsername(properties.getProperty("username"));
-            source.setPassword(properties.getProperty("password"));
-            JdbcTemplate jdbcTemplate = new JdbcTemplate(source);
-            jdbcTemplate.setQueryTimeout(30);
-            controllerUi.setTemplate(jdbcTemplate);
-        }
-        file = new File(App.TABLECONFIG_FILE);
+        File file = new File(App.TABLECONFIG_FILE);
         if(!file.exists()) {
             Assert.isTrue(file.createNewFile(),String.format("创建新的配置文件[%s]失败",App.TABLECONFIG_FILE));
             InputStream is =getClass().getClassLoader().getResourceAsStream("tableconfig.xml");

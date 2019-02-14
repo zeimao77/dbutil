@@ -9,3 +9,4 @@ tableconfig.xml
 /.idea/
 /build/
 /.gradle/
+/db/

@@ -15,7 +15,7 @@
           <Menu mnemonicParsing="false" text="文件">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#handleConfDbSource" text="配置数据源" />
-              <MenuItem mnemonicParsing="false" onAction="#handleConfigDbSource" text="查看数据源" />
+              <MenuItem disable="true" mnemonicParsing="false" onAction="#handleConfigDbSource" text="查看数据源" />
                   <MenuItem mnemonicParsing="false" onAction="#handleQuit" text="关闭" />
             </items>
           </Menu>
