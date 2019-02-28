@@ -121,6 +121,9 @@ public class MainApp extends Application {
         dialogStage.initOwner(controllerUi.getRootStage());
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
+        dialogStage.setWidth(500);
+        dialogStage.setHeight(400);
+        dialogStage.setResizable(false);
         dialogStage.setScene(scene);
         DbSourceConf dbSourceConf = fxmlLoader.getController();
         dbSourceConf.init();

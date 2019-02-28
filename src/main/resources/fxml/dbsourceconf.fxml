@@ -17,8 +17,8 @@
             <Button mnemonicParsing="false" onAction="#handleCancel" text="取消" />
          </children>
       </HBox>
-      <ChoiceBox fx:id="choiceBox_dbsourceSelect" layoutX="29.0" layoutY="357.0" prefWidth="150.0" />
-      <Button layoutX="192.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_addList_click" text="添加到列表" />
-      <Button layoutX="273.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_removeList_click" text="移除列表" />
+      <ChoiceBox fx:id="choiceBox_dbsourceSelect" layoutX="29.0" layoutY="357.0" prefWidth="150.0" AnchorPane.bottomAnchor="20.0" />
+      <Button layoutX="192.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_addList_click" text="添加到列表" AnchorPane.bottomAnchor="20.0" />
+      <Button layoutX="273.0" layoutY="357.0" mnemonicParsing="false" onAction="#button_removeList_click" text="移除列表" AnchorPane.bottomAnchor="20.0" />
    </children>
 </AnchorPane>

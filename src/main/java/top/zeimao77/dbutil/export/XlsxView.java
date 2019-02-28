@@ -17,6 +17,8 @@ import java.util.function.Function;
  */
 public class XlsxView {
 
+    private static final String DEFAULT_NULL_VALUE = "[NULL]";
+
     private int i;
 
     private Map<String,CellStyle> styleMap = new HashMap<>();
@@ -56,18 +58,7 @@ public class XlsxView {
                 Cell cell = row.createCell(column.getIndex());
                 Object value = data.get(column.getField());
                 if(value == null) {
-                    value = "[NULL]";
-                }
-                if (value instanceof Number) {
-                    cell.setCellValue(Double.valueOf(String.valueOf(value)));
-                } else if (value instanceof Date) {
-                    cell.setCellValue((Date) value);
-                } else if (value instanceof Calendar) {
-                    cell.setCellValue((Calendar) value);
-                } else if (value instanceof Boolean) {
-                    cell.setCellValue((Boolean) value);
-                } else {
-                    cell.setCellValue(String.valueOf(value));
+                    value = DEFAULT_NULL_VALUE;
                 }
                 CellStyle cellStyle;
                 if (this.styleMap.containsKey(column.getFormat())) {
@@ -81,6 +72,17 @@ public class XlsxView {
                 }
                 cell.setCellStyle(cellStyle);
                 sheet.setColumnWidth(column.getIndex(), column.getWidth() * 267);
+                if (value instanceof Number) {
+                    cell.setCellValue(Double.valueOf(String.valueOf(value)));
+                } else if (value instanceof Date) {
+                    cell.setCellValue((Date) value);
+                } else if (value instanceof Calendar) {
+                    cell.setCellValue((Calendar) value);
+                } else if (value instanceof Boolean) {
+                    cell.setCellValue((Boolean) value);
+                } else {
+                    cell.setCellValue(String.valueOf(value));
+                }
             }
         }
     }
