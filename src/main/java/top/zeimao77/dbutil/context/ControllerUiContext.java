@@ -1,4 +1,4 @@
-package top.zeimao77.dbutil.comdata;
+package top.zeimao77.dbutil.context;
 
 import javafx.stage.Stage;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +9,7 @@ import top.zeimao77.dbutil.controller.Root;
 import top.zeimao77.dbutil.controller.TabView;
 import top.zeimao77.dbutil.ui.MainApp;
 
-public class ControllerUi {
+public class ControllerUiContext {
 
     private JdbcTemplate template;
 

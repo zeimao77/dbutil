@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
-import top.zeimao77.dbutil.comdata.App;
+import top.zeimao77.dbutil.context.App;
 import top.zeimao77.dbutil.ui.MainApp;
 
 import java.io.IOException;
@@ -38,9 +38,9 @@ public class Root {
     public void init() {
         tabPane_root.getSelectionModel().selectedItemProperty().addListener((o1,o2,o3)->{
             if("导入".equals(o3.getText())){
-                MainApp.getControllerUi().getMysqlImport().refresh();
+                MainApp.getControllerUiContext().getMysqlImport().refresh();
             }else if("导出".equals(o3.getText())){
-                MainApp.getControllerUi().getMysql().refresh();
+                MainApp.getControllerUiContext().getMysql().refresh();
             }
         });
     }
@@ -56,12 +56,12 @@ public class Root {
 
     @FXML
     public void handleConfigDbSource() {
-        MainApp.getControllerUi().getMainApp().showDbSourceConfigPane(new JSONObject());
+        MainApp.getControllerUiContext().getMainApp().showDbSourceConfigPane(new JSONObject());
     }
 
 
     public void handleConfDbSource() throws IOException {
-        MainApp.getControllerUi().getMainApp().showDbSourceConfPane();
+        MainApp.getControllerUiContext().getMainApp().showDbSourceConfPane();
     }
 
 

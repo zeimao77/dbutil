@@ -1,6 +1,6 @@
 package top.zeimao77.dbutil.export;
 
-import top.zeimao77.dbutil.comdata.TableFac;
+import top.zeimao77.dbutil.context.AppResourceContext;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -31,7 +31,7 @@ public class TableFactory {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             InputStream stream = new FileInputStream(file);
             this.tables = (Tables) unmarshaller.unmarshal(stream);
-            TableFac.setTableFactory(this);
+            AppResourceContext.setTableFactory(this);
             logger.info("初始化table工厂结束...");
         } catch (JAXBException | FileNotFoundException e) {
             e.printStackTrace();

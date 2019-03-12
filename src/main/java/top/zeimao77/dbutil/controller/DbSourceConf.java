@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.*;
-import top.zeimao77.dbutil.comdata.App;
+import top.zeimao77.dbutil.context.App;
+import top.zeimao77.dbutil.context.AppResourceContext;
 import top.zeimao77.dbutil.ui.MainApp;
 import top.zeimao77.dbutil.util.SerializableUtil;
 
@@ -33,8 +34,7 @@ public class DbSourceConf {
 
 
     private static File file;
-    //数据源列表
-    JSONArray sourceList = null;
+
 
     ObservableList<String> itemObList;
     @FXML
@@ -75,11 +75,12 @@ public class DbSourceConf {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(source);
         logger.info("重新配置数据源成功");
         jdbcTemplate.setQueryTimeout(30);
-        MainApp.getControllerUi().setTemplate(jdbcTemplate);
+        MainApp.getControllerUiContext().setTemplate(jdbcTemplate);
         stage_dialog.close();
     }
 
     public void init() throws IOException {
+        JSONArray sourceList = AppResourceContext.getSourceList();
         file = new File(App.SOURCELISTFILE);
         //读列表 初始化下拉选择
         if(file.exists()) {
@@ -98,8 +99,9 @@ public class DbSourceConf {
             itemObList = FXCollections.observableArrayList(itemList);
             choiceBox_dbsourceSelect.setItems(itemObList);
             //定义下拉事件
-            choiceBox_dbsourceSelect.getSelectionModel().selectedIndexProperty().addListener((o1,o2,o3)->{
-                JSONObject json = sourceList.getJSONObject(Integer.parseInt(o3.toString())<0?0:Integer.parseInt(o3.toString())).getJSONObject("db");
+            JSONArray finalSourceList = sourceList;
+            choiceBox_dbsourceSelect.getSelectionModel().selectedIndexProperty().addListener((o1, o2, o3)->{
+                JSONObject json = finalSourceList.getJSONObject(Integer.parseInt(o3.toString())<0?0:Integer.parseInt(o3.toString())).getJSONObject("db");
                 if(json != null) {
                     textArea_source.setText(JSON.toJSONString(json,true));
                 }else {
@@ -127,6 +129,7 @@ public class DbSourceConf {
     }
 
     public void button_addList_click() throws IOException {
+        JSONArray sourceList = AppResourceContext.getSourceList();
         //将源添加到列表
         int select_index = choiceBox_dbsourceSelect.getSelectionModel().getSelectedIndex();
         JSONObject sourceSelect = sourceList.getJSONObject(select_index);
@@ -148,6 +151,7 @@ public class DbSourceConf {
     }
 
     public void button_removeList_click() throws IOException {
+        JSONArray sourceList = AppResourceContext.getSourceList();
         //从列表中移除选中的源
         int select_index = choiceBox_dbsourceSelect.getSelectionModel().getSelectedIndex();
         JSONObject obj = sourceList.getJSONObject(select_index);

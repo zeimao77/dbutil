@@ -105,7 +105,7 @@ public class DbCompare {
         }
         fileChooser.setInitialDirectory(new File(homePath));
         fileChooser.setInitialFileName("dbcompare.log");
-        File file = fileChooser.showSaveDialog(MainApp.getControllerUi().getRootStage());
+        File file = fileChooser.showSaveDialog(MainApp.getControllerUiContext().getRootStage());
         PrintStream printStream = new PrintStream(new FileOutputStream(file));
         printStream.println("左库："+url1+dbname1);
         printStream.println("右库："+url2+dbname2);

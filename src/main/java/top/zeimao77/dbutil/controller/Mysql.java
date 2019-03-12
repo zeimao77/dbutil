@@ -12,7 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.util.*;
-import top.zeimao77.dbutil.comdata.TableFac;
+import top.zeimao77.dbutil.context.AppResourceContext;
 import top.zeimao77.dbutil.export.Table;
 import top.zeimao77.dbutil.export.XlsxView;
 import top.zeimao77.dbutil.ui.MainApp;
@@ -50,13 +50,13 @@ public class Mysql implements TabViewAble{
 
     private void setServiceId(String serviceId) {
         this.serviceId = serviceId;
-        MainApp.getControllerUi().getTabView().setHeader(this.serviceId);
+        MainApp.getControllerUiContext().getTabView().setHeader(this.serviceId);
         this.setSelect_data(new ArrayList<>(1));
     }
 
     private void setSelect_data(List<Map<String, Object>> select_data) {
         this.select_data = select_data;
-        MainApp.getControllerUi().getTabView().setData(this.select_data);
+        MainApp.getControllerUiContext().getTabView().setData(this.select_data);
     }
 
     volatile private List<Map<String, Object>> select_data = new ArrayList<>(1);
@@ -73,11 +73,11 @@ public class Mysql implements TabViewAble{
                         String sql = textArea_sql.getText().trim();
                         if(StringUtils.isEmpty(sql)) {
                             Assert.notNull(serviceId,"请选择业务");
-                            sql = TableFac.getTableFactory().getTableByKey(serviceId).getSelect();
+                            sql = AppResourceContext.getTableFactory().getTableByKey(serviceId).getSelect();
                             logger.info("[SQL:]" + sql);
                             Assert.isTrue(StringUtils.hasLength(sql.trim()),"SQL语句不允许为空");
                         }
-                        setSelect_data(MainApp.getControllerUi().getTemplate().queryForList(sql));
+                        setSelect_data(MainApp.getControllerUiContext().getTemplate().queryForList(sql));
                         textArea_res.setText(String.format("查询到[%d]条记录",select_data.size()));
                         updateProgress(1,1);
                         return 0;
@@ -100,7 +100,7 @@ public class Mysql implements TabViewAble{
         fxmlLoader.setLocation(getClass().getClassLoader().getResource("fxml/tabview.fxml"));
         AnchorPane pane = fxmlLoader.load();
         TabView tabView = fxmlLoader.getController();
-        Table table = TableFac.getTableFactory().getTableByKey(this.serviceId);
+        Table table = AppResourceContext.getTableFactory().getTableByKey(this.serviceId);
         dataTableView.setTitle(table.getTableName());
         tabView.setHeader(this.serviceId);
         tabView.refreshView(this.serviceId,this.select_data);
@@ -130,10 +130,10 @@ public class Mysql implements TabViewAble{
         }
         fileChooser.setInitialDirectory(new File(homePath));
         fileChooser.setInitialFileName(serviceId+".xlsx");
-        File file = fileChooser.showSaveDialog(MainApp.getControllerUi().getRootStage());
+        File file = fileChooser.showSaveDialog(MainApp.getControllerUiContext().getRootStage());
         if(file != null) {
             XlsxView xlsxView = new XlsxView();
-            Workbook workbook = xlsxView.create(TableFac.getTableFactory().getTableByKey(serviceId),select_data);
+            Workbook workbook = xlsxView.create(AppResourceContext.getTableFactory().getTableByKey(serviceId),select_data);
             try {
                 FileOutputStream fos = new FileOutputStream(file);
                 workbook.write(fos);
@@ -147,7 +147,7 @@ public class Mysql implements TabViewAble{
     }
 
     public void init()  {
-        choiceBox_config.setItems(FXCollections.observableArrayList(TableFac.getTableFactory().serviceList()));
+        choiceBox_config.setItems(FXCollections.observableArrayList(AppResourceContext.getTableFactory().serviceList()));
         logger.info("读取业务配置成功");
         choiceBox_config.getSelectionModel().selectedItemProperty().addListener((o1,o2,o3)->{
             this.setServiceId(o3.toString());
@@ -159,7 +159,7 @@ public class Mysql implements TabViewAble{
 
     @Override
     public void refresh() {
-        MainApp.getControllerUi().getTabView().refreshView(this.serviceId,this.select_data);
+        MainApp.getControllerUiContext().getTabView().refreshView(this.serviceId,this.select_data);
     }
 
 }

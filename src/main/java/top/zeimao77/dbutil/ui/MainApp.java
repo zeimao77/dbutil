@@ -10,8 +10,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
-import top.zeimao77.dbutil.comdata.App;
-import top.zeimao77.dbutil.comdata.ControllerUi;
+import top.zeimao77.dbutil.context.App;
+import top.zeimao77.dbutil.context.ControllerUiContext;
 import top.zeimao77.dbutil.controller.*;
 import top.zeimao77.dbutil.export.TableFactory;
 
@@ -23,19 +23,19 @@ public class MainApp extends Application {
 
     private static final Logger logger = Logger.getLogger(MainApp.class.getName());
 
-    private static ControllerUi controllerUi;
+    private static ControllerUiContext controllerUiContext;
 
     public static void main(String[] args){
-        controllerUi = new ControllerUi();
+        controllerUiContext = new ControllerUiContext();
         Application.launch();
     }
 
     @Override
     public void start(Stage primaryStage){
-        controllerUi.setMainApp(this);
+        controllerUiContext.setMainApp(this);
         try {
             app_init();
-            controllerUi.setRootStage(primaryStage);
+            controllerUiContext.setRootStage(primaryStage);
             primaryStage.setWidth(650);
             primaryStage.setTitle("ZEIMAO77_DBUTIL");
             initRootStage();
@@ -52,10 +52,10 @@ public class MainApp extends Application {
         BorderPane rootPane = fxmlLoader.load();
         Root root = fxmlLoader.getController();
         root.init();
-        controllerUi.setRoot(root);
+        controllerUiContext.setRoot(root);
         Scene scene = new Scene(rootPane);
-        controllerUi.getRootStage().setScene(scene);
-        controllerUi.getRootStage().show();
+        controllerUiContext.getRootStage().setScene(scene);
+        controllerUiContext.getRootStage().show();
     }
 
     private void initTabPane() throws IOException {
@@ -64,22 +64,22 @@ public class MainApp extends Application {
         fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/mysql.fxml"));
         AnchorPane mysqlPane = fxmlLoader.load();
         Mysql mysql = fxmlLoader.getController();
-        controllerUi.setMysql(mysql);
-        controllerUi.getRoot().getExportPane().setContent(mysqlPane);
+        controllerUiContext.setMysql(mysql);
+        controllerUiContext.getRoot().getExportPane().setContent(mysqlPane);
         //初始化导入界面
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/mysqlimport.fxml"));
         AnchorPane importPane = fxmlLoader.load();
         MysqlImport mysqlImport = fxmlLoader.getController();
-        controllerUi.setMysqlImport(mysqlImport);
-        controllerUi.getRoot().getImportPane().setContent(importPane);
+        controllerUiContext.setMysqlImport(mysqlImport);
+        controllerUiContext.getRoot().getImportPane().setContent(importPane);
         //初始化表格界面
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/tabview.fxml"));
         AnchorPane tabViewPane = fxmlLoader.load();
         TabView tabView = fxmlLoader.getController();
-        controllerUi.setTabView(tabView);
-        controllerUi.getRoot().getDataPane().setContent(tabViewPane);
+        controllerUiContext.setTabView(tabView);
+        controllerUiContext.getRoot().getDataPane().setContent(tabViewPane);
         mysql.init();
         mysqlImport.init();
         //初始化库字段比较页面
@@ -87,7 +87,7 @@ public class MainApp extends Application {
         fxmlLoader.setLocation(MainApp.class.getClassLoader().getResource("fxml/dbcompare.fxml"));
         AnchorPane comparePane = fxmlLoader.load();
         //DbCompare dbCompare = fxmlLoader.getController();
-        controllerUi.getRoot().getComparePane().setContent(comparePane);
+        controllerUiContext.getRoot().getComparePane().setContent(comparePane);
 
     }
 
@@ -102,7 +102,7 @@ public class MainApp extends Application {
         }
         Stage dialogStage = new Stage();
         dialogStage.setTitle("配置数据源");
-        dialogStage.initOwner(controllerUi.getRootStage());
+        dialogStage.initOwner(controllerUiContext.getRootStage());
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
@@ -118,7 +118,7 @@ public class MainApp extends Application {
         AnchorPane page = fxmlLoader.load();
         Stage dialogStage = new Stage();
         dialogStage.setTitle("配置数据源");
-        dialogStage.initOwner(controllerUi.getRootStage());
+        dialogStage.initOwner(controllerUiContext.getRootStage());
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
         dialogStage.setWidth(500);
@@ -147,7 +147,8 @@ public class MainApp extends Application {
         new TableFactory(file);
     }
 
-    public static ControllerUi getControllerUi() {
-        return controllerUi;
+    public static ControllerUiContext getControllerUiContext() {
+        return controllerUiContext;
     }
+
 }

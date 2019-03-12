@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import top.zeimao77.dbutil.comdata.TableFac;
+import top.zeimao77.dbutil.context.AppResourceContext;
 import top.zeimao77.dbutil.export.Table;
 import top.zeimao77.dbutil.export.TableFactory;
 import top.zeimao77.dbutil.export.XlsxView;
@@ -47,6 +47,9 @@ public class MysqlImport implements TabViewAble{
     private ChoiceBox choiceBox_insertMode;
 
     @FXML
+    private TextArea textArea_sql;
+
+    @FXML
     private TextArea textArea_res;
 
     @FXML
@@ -75,7 +78,7 @@ public class MysqlImport implements TabViewAble{
             @Override
             protected Integer call() throws SQLException {
             textArea_res.setText("导入过程中，请勿操作......");
-            JdbcTemplate template = MainApp.getControllerUi().getTemplate();
+            JdbcTemplate template = MainApp.getControllerUiContext().getTemplate();
             DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
             definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
             DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(template.getDataSource());
@@ -83,7 +86,7 @@ public class MysqlImport implements TabViewAble{
             try{
                 choiceBox_insertMode.setDisable(true);
                 button_import.setDisable(true);
-                Table table = TableFac.getTableFactory().getTableByKey(serviceId);
+                Table table = AppResourceContext.getTableFactory().getTableByKey(serviceId);
                 String sqlTemplate = table.getInsert();
                 for(int i=0;i<insert_data.size();i++) {
                     Map<String,Object> map = insert_data.get(i);
@@ -139,7 +142,7 @@ public class MysqlImport implements TabViewAble{
 
     private void setServiceId(String serviceId) {
         this.serviceId = serviceId;
-        MainApp.getControllerUi().getTabView().setHeader(this.serviceId);
+        MainApp.getControllerUiContext().getTabView().setHeader(this.serviceId);
         this.setInsert_data(new ArrayList<>(1));
     }
 
@@ -153,12 +156,13 @@ public class MysqlImport implements TabViewAble{
             this.insert_mode = o3.intValue();
         });
         choiceBox_insertMode.getSelectionModel().select(3);
-        choiceBox_config.setItems(FXCollections.observableArrayList(TableFac.getTableFactory().serviceList()));
+        choiceBox_config.setItems(FXCollections.observableArrayList(AppResourceContext.getTableFactory().serviceList()));
         choiceBox_config.getSelectionModel().selectedItemProperty().addListener((o1,o2,o3)->{
             this.setServiceId(o3.toString());
             this.textField_file.setText(null);
             this.pro_indicator1.setProgress(0);
             this.textArea_res.clear();
+
             this.insert_data.clear();
         });
 
@@ -167,7 +171,7 @@ public class MysqlImport implements TabViewAble{
 
     public void setInsert_data(List<Map<String, Object>> insert_data) {
         this.insert_data = insert_data;
-        MainApp.getControllerUi().getTabView().refreshView(this.serviceId,this.insert_data);
+        MainApp.getControllerUiContext().getTabView().refreshView(this.serviceId,this.insert_data);
     }
 
     public void chooseXlsx() throws IOException, InvalidFormatException {
@@ -176,10 +180,10 @@ public class MysqlImport implements TabViewAble{
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("XLSX","*.xlsx")
         );
-        File file = fileChooser.showOpenDialog(MainApp.getControllerUi().getRootStage());
+        File file = fileChooser.showOpenDialog(MainApp.getControllerUiContext().getRootStage());
         if(file != null && file.exists()) {
             textField_file.setText(file.getPath());
-            Table table = TableFac.getTableFactory().getTableByKey(this.serviceId);
+            Table table = AppResourceContext.getTableFactory().getTableByKey(this.serviceId);
             List<Map<String,Object>> insertData = null;
             try{
                 insertData = XlsxView.parseXlsx(file,table);
@@ -201,7 +205,7 @@ public class MysqlImport implements TabViewAble{
 
     @Override
     public void refresh() {
-        MainApp.getControllerUi().getTabView().refreshView(this.serviceId,this.insert_data);
+        MainApp.getControllerUiContext().getTabView().refreshView(this.serviceId,this.insert_data);
     }
 
 }

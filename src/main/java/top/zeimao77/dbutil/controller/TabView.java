@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
-import top.zeimao77.dbutil.comdata.TableFac;
+import top.zeimao77.dbutil.context.AppResourceContext;
 import top.zeimao77.dbutil.export.Column;
 import top.zeimao77.dbutil.export.Table;
 
@@ -25,7 +25,7 @@ public class TabView {
     private List<Map<String, Object>> data;
 
     public void setHeader(String serviceId) {
-        Table table = TableFac.getTableFactory().getTableByKey(serviceId);
+        Table table = AppResourceContext.getTableFactory().getTableByKey(serviceId);
         tableView.getColumns().clear();
         for(Map.Entry<String, Column> entry : table.getColumnMap().entrySet()) {
             Column column = entry.getValue();
